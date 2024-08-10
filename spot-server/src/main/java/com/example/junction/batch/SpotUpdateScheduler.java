@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toMap;
 
 import com.example.junction.application.SpotCreateRequest;
 import com.example.junction.application.SpotCreateService;
-import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,6 @@ public class SpotUpdateScheduler {
   @Value("${spot.update.url}")
   private String updateUrl;
 
-  @PostConstruct
   @Scheduled(cron = "0 0 * * * *") // 초 분 시 일 월 요일
   public void update() {
     if (spotCreateService.isUpdatedToday()) {
