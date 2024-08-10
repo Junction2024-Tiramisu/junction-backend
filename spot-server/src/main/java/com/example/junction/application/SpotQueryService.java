@@ -19,16 +19,11 @@ public class SpotQueryService {
   private final SpotRepository spotRepository;
 
   public SpotsResponse getSpots(final SpotQueryRequest request) {
-    LocalDate targetDate = LocalDate.now();
-    while (true) {
-      final List<Spot> spots = getSpotsByDate(targetDate, request);
-      if (!spots.isEmpty()) {
-        return new SpotsResponse(spots.stream()
-            .map(SpotResponse::from)
-            .toList());
-      }
-      targetDate = targetDate.minusDays(1);
-    }
+    final LocalDate targetDate = LocalDate.now();
+    final List<Spot> spots = getSpotsByDate(targetDate, request);
+    return new SpotsResponse(spots.stream()
+        .map(SpotResponse::from)
+        .toList());
   }
 
   public List<Spot> getSpotsByDate(final LocalDate date, final SpotQueryRequest request) {
