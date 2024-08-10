@@ -32,7 +32,10 @@ public class SpotUpdateScheduler {
   @Scheduled(cron = "0 0 3 * * *") // 초 분 시 일 월 요일
   public void update() {
     final LocalDate today = LocalDate.now();
-    final Resource resource = resourceLoader.getResource("classpath:data/" + today + ".csv");
+    final Resource resource = resourceLoader.getResource(getResourcePath(today));
+    if (!resource.exists()) {
+      return;
+    }
     final List<SpotCreateRequest> spotCreateRequests = readCsv(resource).stream()
         .map(row -> new SpotCreateRequest(
             Double.valueOf(row.get(LATITUDE_COLUMN)),
@@ -41,6 +44,10 @@ public class SpotUpdateScheduler {
         ))
         .toList();
     spotCreateService.createSpots(spotCreateRequests);
+  }
+
+  private String getResourcePath(final LocalDate today) {
+    return "classpath:data/" + today.getYear() + today.getMonth() + today.getDayOfMonth() + ".csv";
   }
 
   private List<Map<String, String>> readCsv(final Resource resource) {
