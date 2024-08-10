@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:tc:mysql:8.0.38:///
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
+        orm:
+          jdbc:
+            bind: trace

@@ -7,10 +7,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public class Spot {
 
@@ -30,4 +35,10 @@ public class Spot {
   @CreatedDate
   @Column(updatable = false)
   private LocalDateTime createdAt;
+
+  public Spot(final Double latitude, final Double longitude, final Double weight) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.weight = weight;
+  }
 }
