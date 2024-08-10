@@ -17,3 +17,7 @@ logging:
         orm:
           jdbc:
             bind: trace
+
+spot:
+  update:
+    url: https://example.com
