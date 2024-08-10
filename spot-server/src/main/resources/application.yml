@@ -11,3 +11,7 @@ spring:
   sql:
     init:
       mode: never
+
+spot:
+  update:
+    url: https://raw.githubusercontent.com/Junction2024-Tiramisu/junction-backend/main/data-pipeline/processed-data/

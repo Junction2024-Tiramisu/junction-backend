@@ -25,4 +25,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
       LocalDateTime startCreatedAt,
       LocalDateTime endCreatedAt
   );
+
+  boolean existsByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 }

@@ -2,6 +2,8 @@ package com.example.junction.application;
 
 import com.example.junction.domain.Spot;
 import com.example.junction.domain.SpotRepository;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,5 +25,11 @@ public class SpotCreateService {
         )
         .toList();
     spotRepository.saveAll(spots);
+  }
+
+  public boolean isUpdatedToday() {
+    final LocalDateTime startOfDate = LocalDateTime.now().with(LocalTime.MIN);
+    final LocalDateTime endOfDate = LocalDateTime.now().with(LocalTime.MAX);
+    return spotRepository.existsByCreatedAtBetween(startOfDate, endOfDate);
   }
 }
