@@ -36,11 +36,10 @@ data = data[
 # 상위 N개의 데이터 추출
 data = data.nlargest(1000, "weight")
 
-# 위도와 경도가 같은 row의 수 계산
-data["coord_key"] = data["latitude"].astype(str) + "_" + data["longitude"].astype(str)
+# 위경도를 소수점 셋째 자리까지 반올림하고 위경도가 같은 데이터 중 'avg_lightlux'가 가장 큰 데이터만 남김
+data["latitude"] = data["latitude"].apply(lambda x: round(x, 3))
+data["longitude"] = data["longitude"].apply(lambda x: round(x, 3))
 
-group_sizes = data.groupby("coord_key").size()
-
-data["group_size"] = data["coord_key"].map(group_sizes)
+data = data.loc[data.groupby(["latitude", "longitude"])["avg_lightlux"].idxmax()]
 
 data.to_csv(f"data-pipeline/processed-data/{today_string}.csv", index=False)
