@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class SpotsQueryService {
+public class SpotQueryService {
 
   private final SpotRepository spotRepository;
 
-  public SpotsResponse getSpots(final SpotsQueryRequest request) {
+  public SpotsResponse getSpots(final SpotQueryRequest request) {
     final LocalDateTime startDateTime = LocalDateTime.now().with(LocalTime.MIN);
     final LocalDateTime endDateTime = LocalDateTime.now().with(LocalTime.MAX);
     final List<SpotResponse> spotResponses = spotRepository.findBetweenSpots(
