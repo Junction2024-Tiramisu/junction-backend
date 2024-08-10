@@ -17,6 +17,7 @@ public class SpotQueryService {
   private final SpotRepository spotRepository;
 
   public SpotsResponse getSpots(final SpotQueryRequest request) {
+    // TODO: Spot 데이터가 업데이트 되지 않았을 경우 전날 데이터를 보여주는 로직 구현
     final LocalDateTime startDateTime = LocalDateTime.now().with(LocalTime.MIN);
     final LocalDateTime endDateTime = LocalDateTime.now().with(LocalTime.MAX);
     final List<SpotResponse> spotResponses = spotRepository.findBetweenSpots(

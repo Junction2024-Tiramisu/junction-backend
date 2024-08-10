@@ -33,9 +33,11 @@ public class SpotUpdateScheduler {
   public void update() {
     final LocalDate today = LocalDate.now();
     final Resource resource = resourceLoader.getResource(getResourcePath(today));
+    // TODO: 파일이 존재하지 않을 경우 일정 시간을 두고 재시도 처리
     if (!resource.exists()) {
       return;
     }
+    // TODO: 가공되지 않은 CSV 파일 데이터를 가공해서 Spot을 저장하는 로직 구현
     final List<SpotCreateRequest> spotCreateRequests = readCsv(resource).stream()
         .map(row -> new SpotCreateRequest(
             Double.valueOf(row.get(LATITUDE_COLUMN)),
