@@ -21,7 +21,7 @@ data = data[(data["operated_at"].dt.hour >= 20) | (data["operated_at"].dt.hour <
 scaler = MinMaxScaler()
 data["weight"] = scaler.fit_transform(data[["avg_lightlux"]])
 
-# # IQR의 1.5배 이상 떨어진 데이터를 이상치로 간주하고 제거
+# IQR의 1.5배 이상 떨어진 데이터를 이상치로 간주하고 제거
 Q1 = data["avg_lightlux"].quantile(0.25)
 Q3 = data["avg_lightlux"].quantile(0.75)
 IQR = Q3 - Q1
@@ -33,13 +33,13 @@ data = data[
     )
 ]
 
-# 상위 N개의 데이터 추출
-data = data.nlargest(1000, "weight")
-
 # 위경도를 소수점 셋째 자리까지 반올림하고 위경도가 같은 데이터 중 'avg_lightlux'가 가장 큰 데이터만 남김
 data["latitude"] = data["latitude"].apply(lambda x: round(x, 3))
 data["longitude"] = data["longitude"].apply(lambda x: round(x, 3))
 
 data = data.loc[data.groupby(["latitude", "longitude"])["avg_lightlux"].idxmax()]
+
+# 상위 N개의 데이터 추출
+data = data.nlargest(200, "weight")
 
 data.to_csv(f"data-pipeline/processed-data/{today_string}.csv", index=False)
